@@ -15,6 +15,7 @@ class EllipticCurve:
     def is_on_curve(self, point) -> bool:
         """Returns true if a point is on the curve"""
         x, y = get_xy(point)
+        if x == float('inf') and y == float('inf'): return True
         return y ** 2 % self.field == self.weierstrass(x)
 
     def __repr__(self):
