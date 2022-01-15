@@ -1,4 +1,4 @@
-from functools import cache
+#from functools import cache
 
 
 class EllipticCurve:
@@ -7,6 +7,7 @@ class EllipticCurve:
         self.a = a
         self.b = b
         self.field = field
+        self.__hash = self.__hash__()
 
     def weierstrass(self, x: int) -> int:
         """Returns the y for the weierstrass equation"""
@@ -43,7 +44,25 @@ class EllipticCurve:
 
     def __hash__(self):
         return hash(self.a * self.b * self.field)
+    
+    @property
+    def points_on_curve(self):
+        return list(self.__iter__())
+    
+    @property	
+    def order(self):
+    	return len(self.points_on_curve)
+    	
+    def __len__(self):
+    	return self.order
 
+    def __iter__(self):
+        for y in range(1,self.field):
+            for x in range(1,self.field):
+                if pow(y, 2, self.field) == self.weierstrass(x):
+                    yield EllipticPoint(x,y,self)
+        yield InfinityPoint(self)
+        return
 
 class EllipticPoint:
 
@@ -139,7 +158,7 @@ class EllipticPoint:
         raise IndexError(f"{self.__repr__()} only supports index 0 and 1")
 
     def __iter__(self):
-        return self.x, self.y
+        return iter(self.x, self.y)
 
     def __eq__(self, point):
         return isinstance(point, EllipticPoint) \
@@ -148,7 +167,7 @@ class EllipticPoint:
                and self.curve == point.curve
 
     @property
-    @cache
+    #@cache
     def cycle(self) -> ['EllipticPoint']:
         """ Generate the cycle of the point. Keep adding the point to itself until the point at infinity is reached"""
         points = [self, self + self]
