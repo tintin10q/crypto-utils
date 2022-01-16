@@ -28,7 +28,7 @@ class EllipticCurve:
     @property
     def latex_str(self) -> str:
         """ Latex repr, should be printed"""
-        return f"y^2 = x^3 + {self.a}x + {self.b} in \\mathbb{{F}}_{self.field}"
+        return f"y^2 = x^3 + {self.a}x + {self.b} \in \\mathbb{{F}}_{{{self.field}}}"
 
     def multiplicative_inverse(self, divisor) -> int:
         """ Return multiplicative inverse with scalar and mod the field of this curve """
