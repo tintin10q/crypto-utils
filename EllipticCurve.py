@@ -1,4 +1,4 @@
-#from functools import cache
+from functools import cache
 
 
 class EllipticCurve:
@@ -99,6 +99,11 @@ class EllipticPoint:
         """Return the inverse of the point. You can also use the ~ operator"""
         return self.__invert__()
 
+    @property
+    def compressed(self) -> 'EllipticPoint':
+        point = EllipticPoint(self.x, self.y % self.curve.field, self.curve)
+        return point
+
     def __invert__(self) -> 'EllipticPoint':
         return EllipticPoint(x=self.x, y=(-self.y) % self.curve.field, curve=self.curve)
 
@@ -167,7 +172,7 @@ class EllipticPoint:
                and self.curve == point.curve
 
     @property
-    #@cache
+    @cache
     def cycle(self) -> ['EllipticPoint']:
         """ Generate the cycle of the point. Keep adding the point to itself until the point at infinity is reached"""
         points = [self, self + self]
