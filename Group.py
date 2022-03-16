@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
-
-MIN_PYTHON = (3, 9)
-if sys.version_info < MIN_PYTHON:
-    sys.exit("Python %s.%s or later is required." % MIN_PYTHON)
-
 from typing import Callable, Generator
 
 
