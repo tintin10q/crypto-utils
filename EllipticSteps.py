@@ -1,4 +1,3 @@
-from functools import cache
 from itertools import chain
 
 
@@ -379,7 +378,6 @@ class EllipticPoint:
                and self.curve == point.curve
 
     @property
-    @cache
     def cycle(self) -> ['EllipticPoint']:
         """ Generate the cycle of the point. Keep adding the point to itself until the point at infinity is reached"""
         points = [self, self + self]
